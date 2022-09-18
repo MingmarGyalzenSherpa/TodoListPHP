@@ -1,3 +1,14 @@
+<?php 
+
+  //connect to db
+  include('./db_config.php');
+
+  //query string
+  $sql = "SELECT * FROM todo_list";
+  $result=$conn->query($sql);
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -25,11 +36,25 @@
       </tr>
    </thead>
     <tbody>
+      <?php
+        if($result->num_rows)
+        {
+            $rows = $result->fetch_all(MYSQLI_ASSOC);
+      
+        foreach($rows as $task)
+        {
+          ?>
+          
       <tr>
-        <th scope="row">1</th>
-        <td>Go to Shopping</td>
-        <td><button class="btn btn-outline-danger">Delete</button></td>
+        <th scope="row"> <?php echo $task['id'] ?></th>
+          <td> <?php echo $task['title'] ?></td>
+          <td><button class="btn btn-outline-danger">Delete</button></td>
       </tr>
+      <?php
+        }
+    }
+      ?>
+     
    
   </tbody>
 </table>
